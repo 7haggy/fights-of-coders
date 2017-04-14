@@ -24,8 +24,6 @@
     "gulp-sourcemaps": "^2.4.0",
     "gulp-less": "latest",
     "gulp-uglify": "^2.0.0",
-    "gulp-util": "^3.0.8",
-    "bootstrap":"^3",
-    "jquery":"^3"
+    "gulp-util": "^3.0.8"
   }
 }

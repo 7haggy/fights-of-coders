@@ -15,24 +15,12 @@ var rename = require('gulp-rename'),
     uglify = require('gulp-uglify'),
     babel = require('gulp-babel');
 
-
-gulp.task('connect', function() {
-    connect.server({
-        root: './',
-        livereload: true
-    });
-});
-
-
 gulp.task('less', function () {
     return gulp.src('src/less/main.less')
         .pipe(plumber())
-        .pipe(less({
-            'include css': true
-        }))
+        .pipe(less())
         .pipe(autoprefixer('last 3 versions', '> 2%', 'ie 9'))
         .pipe(gulp.dest('./css/'))
-        .pipe(connect.reload())
 });
 
 
@@ -40,19 +28,12 @@ gulp.task('html', function() {
     return gulp.src('src/html/*.html')
         .pipe(plumber())
         .pipe(gulp.dest('./'))
-        .pipe(connect.reload())
 });
 
 
 gulp.task('img', function() {
     return gulp.src('src/img/**/*')
-        .pipe(imagemin({
-            progressive: true,
-            svgoPlugins: [{removeViewBox: false}],
-            use: [pngquant()]
-        }))
         .pipe(gulp.dest('./img'))
-        .pipe(connect.reload())
 });
 
 gulp.task('scripts', function() {
@@ -62,21 +43,18 @@ gulp.task('scripts', function() {
         .pipe(plumber())
         .pipe(concat('main.js'))
         .pipe(gulp.dest('./js/'))
-        //.pipe(uglify())
-        //.pipe(rename('main.min.js'))
         .pipe(babel({
             presets: ['es2015']
         }))
         .pipe(gulp.dest('./js/'))
-        .pipe(connect.reload())
 });
 
 
 gulp.task('watch', function() {
-    gulp.watch('src/less/**/*.styl', ['less'])
+    gulp.watch('src/less/**/*.less', ['less'])
     gulp.watch('src/html/**/*.html', ['html'])
     gulp.watch('src/img/**/*', ['img'])
     gulp.watch('src/js/**/*.js', ['scripts'])
 });
 
-gulp.task('default', ['connect', 'html', 'less', 'scripts', 'watch']);
+gulp.task('default', ['html', 'less', 'scripts', 'watch']);
